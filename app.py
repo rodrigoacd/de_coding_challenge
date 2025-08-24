@@ -28,49 +28,39 @@ def upload_data():
     
     Returns a JSON response indicating success or failure.
     '''
-    # Check if the request contains a file and csv format
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
-    if not request.files['file'].filename.endswith('.csv'):
-        return jsonify({"error": "File is not a CSV"}), 400
-    
-    # Get the file from the request
-    file = request.files['file']
-    
-    # Get the table name from the request
-    table_name = request.form.get('table_name')
-    # Check the table name from the request
-    if not table_name:
-        return jsonify({"error": "Table name is required"}), 400
-    
+
+    #upload path
+    upload_path = 'upload/'    
 
     # declare a dict with the table names and their columns like { table_name: [column1, column2, ...] }
     table_columns = {
         'hired_employees': ['id', 'name', 'date', 'department_id', 'job_id'],
         'departments': ['id', 'department_name'],
         'jobs': ['id', 'job_name'] }
-    
-    # 
-    if table_name not in table_columns:
-        return jsonify({"error": f"Table '{table_name}' does not exist"}), 400
-    
-    columns = table_columns[table_name]
 
-    # Start processing the uploaded file
-    try:
-        conn = get_db_connection()
-        # Read the CSV file into a pandas DataFrame
-        df = pandas.read_csv(file, header=None, names=columns)
+    # cicle trought table_names concar with the upload path and csv extention and upload the file to table 
+    for table_name, columns in table_columns.items():
+        print (f"Table: {table_name}, Columns: {columns}")
         
-        # Ensure the table exists and append the file data
-        df.to_sql(table_name, conn, if_exists='append', index=False)
+    
+        columns = table_columns[table_name]
+        file = upload_path + table_name + '.csv'
 
-        conn.close()
+        # Start processing the uploaded file
+        try:
+            conn = get_db_connection()
+            # Read the CSV file into a pandas DataFrame
+            df = pandas.read_csv(file, header=None, names=columns)
+            
+            # Ensure the table exists and append the file data
+            df.to_sql(table_name, conn, if_exists='append', index=False)
 
-        return jsonify({"message": "Data uploaded successfully"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
+            conn.close()
+            
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    
+    return jsonify({"message": "Data uploaded successfully"}), 200
 
 
 ################ Second exercise   First endpoint          ##########
