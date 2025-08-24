@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+*.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# SQLite database
+*.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Docker
+*.log
+
+# Test output
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+pytest_cache/
+coverage.xml
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
