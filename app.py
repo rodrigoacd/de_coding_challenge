@@ -46,7 +46,7 @@ def upload_data():
 
     # declare a dict with the table names and their columns like { table_name: [column1, column2, ...] }
     table_columns = {
-        'hired_employees': ['id', 'name', 'datetime', 'department_id', 'job_id'],
+        'hired_employees': ['id', 'name', 'date', 'department_id', 'job_id'],
         'departments': ['id', 'department_name'],
         'jobs': ['id', 'job_name'] }
     
